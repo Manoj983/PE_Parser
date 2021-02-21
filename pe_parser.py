@@ -258,13 +258,14 @@ if __name__=='__main__':
         "legitimate"
 
     ]
+    #output in csv format
     file_= open(output_csv,"a")
     file_.write(csv_seperator.join(columns)+"\n")
     ffile = file_path
     print(ffile)
     result = extract_infos(os.path.join(ffile))
-    result.append("1")
-    #result.append("0")
+    result.append("1")#for legitimate
+    #result.append("0")#for malware
     file_.write(csv_seperator.join(map(lambda x:str(x), result)) + "\n")
     
     
