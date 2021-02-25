@@ -80,9 +80,9 @@ with open(file_,"rb") as f:
 
 def extract_infos(file_path):
     result = []
-    file_path = "/home/akakrazy/PWK/malware_analysis/eula.exe"
+    #file_path = "/home/akakrazy/PWK/malware_analysis/trojanshtt10.exe"
     pe =pefile.PE(file_path)
-    
+    result.append(os.path.basename(file_path)) #to print the name of the file only
     result.append(md5_returned)
     #[IMAGE_FILE_HEADER]
     result.append(pe.FILE_HEADER.Machine)
@@ -91,10 +91,12 @@ def extract_infos(file_path):
     #[OPTIONAL_HEADER]
     result.append(pe.OPTIONAL_HEADER.MajorLinkerVersion)
     result.append(pe.OPTIONAL_HEADER.MinorLinkerVersion)
+    result.append(pe.OPTIONAL_HEADER.SizeOfCode)
     result.append(pe.OPTIONAL_HEADER.SizeOfInitializedData)
     result.append( pe.OPTIONAL_HEADER.SizeOfUninitializedData)
     result.append( pe.OPTIONAL_HEADER.AddressOfEntryPoint)
     result.append(pe.OPTIONAL_HEADER.BaseOfCode)
+    result.append(pe.OPTIONAL_HEADER.BaseOfData)
     result.append(pe.OPTIONAL_HEADER.ImageBase)
     result.append(pe.OPTIONAL_HEADER.SectionAlignment)
     result.append( pe.OPTIONAL_HEADER.FileAlignment)
@@ -179,8 +181,10 @@ def extract_infos(file_path):
         result.append("0")
 
     #for LoadconfigurationSize
-    result.append(pe.DIRECTORY_ENTRY_LOAD_CONFIG.struct.Size)
-
+    try:
+        result.append(pe.DIRECTORY_ENTRY_LOAD_CONFIG.struct.Size)
+    except AttributeError:
+        result.append("0")
 
     #for versionSize
     '''
@@ -258,14 +262,13 @@ if __name__=='__main__':
         "legitimate"
 
     ]
-    #output in csv format
     file_= open(output_csv,"a")
     file_.write(csv_seperator.join(columns)+"\n")
     ffile = file_path
     print(ffile)
     result = extract_infos(os.path.join(ffile))
-    result.append("1")#for legitimate
-    #result.append("0")#for malware
+    result.append("1")
+    #result.append("0")
     file_.write(csv_seperator.join(map(lambda x:str(x), result)) + "\n")
     
     
