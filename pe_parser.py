@@ -21,7 +21,7 @@ def get_entropy(data):
     for x in data:
   	    occurences[x if isinstance(x, int) else ord(x)] += 1
 
-    entropy = 0
+    entropy = 0#Shannon entropy of file
     for x in occurences:
 	    if x:
 	        p_x = float(x) / len(data)
