@@ -180,12 +180,13 @@ def extract_infos(file_path):
         result.append("0")
         result.append("0")
 
-    #for LoadconfigurationSize
+    #for LoadconfigurationSizei
+    '''
     try:
         result.append(pe.DIRECTORY_ENTRY_LOAD_CONFIG.struct.Size)
     except AttributeError:
         result.append("0")
-
+    '''
     #for versionSize
     '''
     version_infos = get_version_info(pe)
@@ -257,7 +258,7 @@ if __name__=='__main__':
         "ResourcesMeanSize",
         "ResourcesMinSize",
         "ResourcesMaxSize",
-        "LoadConfigurationSize",
+        #"LoadConfigurationSize",
         "VersionInformationSize",
         "legitimate"
 
